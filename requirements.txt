@@ -1,0 +1,12 @@
+bottle==0.12.9
+clint==0.5.1
+connexion==1.0.103
+Flask==0.10.1
+Flask_Sockets==0.2.1
+gevent==1.1.1
+numpy==1.11.0
+pexpect==4.1.0
+requests==2.9.1
+gevent_websocket==0.9.5
+websocket_client==0.37.0
+PyYAML==3.11
