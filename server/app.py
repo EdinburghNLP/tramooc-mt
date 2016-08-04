@@ -6,6 +6,7 @@ import connexion
 import settings
 from bottle import request, Bottle, abort
 from websocket import create_connection
+from lxml import etree
 
 model_path_prefix = sys.argv[1]
 models = sys.argv[2:]
@@ -49,6 +50,26 @@ def process_sentences(sentences, model):
     return [sentence for sentence in post if sentence]
 
 
+def parse_xml(message):
+    xm = etree.fromstring(message)
+    trg = xm.iterfind('lang').next().text
+    model = 'en-{}'.format(trg)
+    sentences = [sen.text.strip() for sen in xm.iterfind('text')]
+    return model, sentences
+
+
+def pack_into_xml(sentences, model):
+    out = etree.Element('msg')
+    src = model.split('-')[0]
+    trg = model.split('-')[1]
+    for sentence in sentences:
+        child = etree.SubElement(out, 'text')
+        child.text = sentence.strip()
+        child.set('src', src)
+        child.set('trg', trg)
+    return etree.tostring(out)
+
+
 @app.route('/translate')
 def handle_websocket():
         wsock = request.environ.get('wsgi.websocket')
@@ -59,8 +80,9 @@ def handle_websocket():
             try:
                 message = wsock.receive()
                 if message is not None:
-                    trans = process_sentences(message.split('\n'), 'en-de')
-                    wsock.send('\n'.join(trans))
+                    model, sentences = parse_xml(message)
+                    trans = process_sentences(sentences, model)
+                    wsock.send(pack_into_xml(trans, model))
             except WebSocketError:
                 break
 

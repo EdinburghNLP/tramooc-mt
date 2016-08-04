@@ -18,8 +18,7 @@ models: ./model/en-de/config.yml ./model/en-ru/config.yml
 .phony: models
 
 amunmt:
-	git clone https://github.com/emjotde/amunmt.git -b cpu $<
-	cp -r tokenizer share recaser server $@
+	git clone https://github.com/emjotde/amunmt.git -b cpu_stable $<
 
 ./model/%/config.yml: amunmt
 	mkdir -p $(@D)
