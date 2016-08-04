@@ -2,11 +2,14 @@
 
 import sys
 from websocket import create_connection
+from lxml import etree
+
 
 MESSAGE = """
 <msg>
-<text>This is a test</text>
+<text>This is a test.\nThis is another one.</text>
 <lang>de</lang>
+<domain>informal</domain>
 </msg>
 """
 
@@ -14,7 +17,10 @@ def main():
     """ main """
     conn = create_connection('ws://localhost:8080/translate')
     conn.send(MESSAGE)
-    print conn.recv()
+
+    translation = conn.recv()
+    xml = etree.fromstring(translation).find('text').text
+    print xml
     conn.close()
 
 
