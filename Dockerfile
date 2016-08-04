@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
 	python \
 	python-dev \
 	python-pip \
+	python-libxml2 \
 	gfortran \
 	zlib1g-dev \
 	g++ \
@@ -19,6 +20,8 @@ RUN apt-get update && apt-get install -y \
 	libtool \
 	libboost-all-dev \
 	libgoogle-perftools-dev \
+	libxml2-dev \
+        libxslt1-dev \
 && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt /requirements.txt
