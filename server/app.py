@@ -52,9 +52,9 @@ def validate(sentences):
     if any('\n' in sentence for sentence in sentences):
         raise EngineException('Error: input may not contain line breaks.')
 
-def process_sentences(sentences, model):
+def process_sentences(sentences, model, translation_memory):
     validate(sentences)
-    forced_translations = override(sentences)
+    forced_translations = override(sentences, translation_memory)
     preprocessed = preprocess(sentences, model)
     translated = translate(preprocessed, model)
     post = [sentence for sentence in postprocess(translated, model) if sentence]
@@ -62,13 +62,33 @@ def process_sentences(sentences, model):
         post[i] = forced_translations[i]
     return post
 
+def extract_tmx(tmx, src, trg):
+    memory = {}
+    body = tmx.find('body')
+    for tu in body.iterfind('tu'):
+        cur_src = None
+        cur_trg = None
+        for tuv in tu.iterfind('tuv'):
+            lang = tuv.get('{http://www.w3.org/XML/1998/namespace}lang')
+            if lang == src:
+                cur_src = tuv.find('seg').text
+            elif lang == trg:
+                cur_trg = tuv.find('seg').text
+        if cur_src and cur_trg:
+            memory[cur_src] = cur_trg
+    return memory
 
 def parse_xml(message):
     xm = etree.fromstring(message)
     trg = xm.iterfind('lang').next().text
     model = 'en-{}'.format(trg)
     sentences = [sen.text.strip() for sen in xm.iterfind('text')]
-    return model, sentences
+    if xm.find('tmx'):
+        tmx = extract_tmx(xm.find('tmx'), 'en', trg)
+    else:
+        tmx = None
+
+    return model, sentences, tmx
 
 
 def pack_into_xml(sentences, model):
@@ -93,9 +113,9 @@ def handle_websocket():
             try:
                 message = wsock.receive()
                 if message is not None:
-                    model, sentences = parse_xml(message)
+                    model, sentences, translation_memory = parse_xml(message)
                     try:
-                        trans = process_sentences(sentences, model)
+                        trans = process_sentences(sentences, model, translation_memory)
                         wsock.send(pack_into_xml(trans, model))
                     except EngineException as e:
                         wsock.send(e)
