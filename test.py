@@ -11,6 +11,7 @@ MESSAGE = """
 <domain>informal</domain>
 <text>This is a test.</text>
 <text>This is another one.</text>
+<text>This is an URL: http://please.com/do/no/translate/me</text>
 </msg>
 """
 

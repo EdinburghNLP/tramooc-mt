@@ -7,6 +7,7 @@ import settings
 from bottle import request, Bottle, abort
 from websocket import create_connection
 from lxml import etree
+from override import override
 
 model_path_prefix = sys.argv[1]
 models = sys.argv[2:]
@@ -15,6 +16,8 @@ PORT = 8080
 
 app = Bottle()
 
+class EngineException(Exception):
+    pass
 
 def translate(sentences, model):
     input_text = '\n'.join(sentences)
@@ -42,12 +45,22 @@ def postprocess(sentences, model):
     postprocessor.close()
     return postprocessed
 
+# validate input
+# we currently disallow line breaks in input, since this is internally
+# treated as sentence boundary
+def validate(sentences):
+    if any('\n' in sentence for sentence in sentences):
+        raise EngineException('Error: input may not contain line breaks.')
 
 def process_sentences(sentences, model):
+    validate(sentences)
+    forced_translations = override(sentences)
     preprocessed = preprocess(sentences, model)
     translated = translate(preprocessed, model)
-    post = postprocess(translated, model)
-    return [sentence for sentence in post if sentence]
+    post = [sentence for sentence in postprocess(translated, model) if sentence]
+    for i in forced_translations:
+        post[i] = forced_translations[i]
+    return post
 
 
 def parse_xml(message):
@@ -81,8 +94,11 @@ def handle_websocket():
                 message = wsock.receive()
                 if message is not None:
                     model, sentences = parse_xml(message)
-                    trans = process_sentences(sentences, model)
-                    wsock.send(pack_into_xml(trans, model))
+                    try:
+                        trans = process_sentences(sentences, model)
+                        wsock.send(pack_into_xml(trans, model))
+                    except EngineException as e:
+                        wsock.send(e)
             except WebSocketError:
                 break
 
