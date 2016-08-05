@@ -7,9 +7,10 @@ from lxml import etree
 
 MESSAGE = """
 <msg>
-<text>This is a test.\nThis is another one.</text>
 <lang>de</lang>
 <domain>informal</domain>
+<text>This is a test.</text>
+<text>This is another one.</text>
 </msg>
 """
 
@@ -19,7 +20,7 @@ def main():
     conn.send(MESSAGE)
 
     translation = conn.recv()
-    xml = etree.fromstring(translation).find('text').text
+    xml = '\n'.join([elem.text for elem in etree.fromstring(translation).iterfind('text')])
     print xml
     conn.close()
 

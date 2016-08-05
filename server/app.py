@@ -62,10 +62,11 @@ def pack_into_xml(sentences, model):
     out = etree.Element('msg')
     src = model.split('-')[0]
     trg = model.split('-')[1]
-    child = etree.SubElement(out, 'text')
-    child.text = '\n'.join(sentences).decode("UTF-8")
-    child.set('src', src)
-    child.set('trg', trg)
+    for sentence in sentences:
+        child = etree.SubElement(out, 'text')
+        child.text = sentence.decode("UTF-8")
+        child.set('src', src)
+        child.set('trg', trg)
     return etree.tostring(out)
 
 
