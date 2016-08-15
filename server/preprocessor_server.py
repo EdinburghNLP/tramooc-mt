@@ -13,13 +13,16 @@ sockets = Sockets(app)
 SCRIPT_PATH = os.path.dirname(os.path.realpath(__file__))
 MODEL_PATH = sys.argv[1]
 LANG = sys.argv[2]
+TOK_SETTINGS = sys.argv[3]
 TRUE_MODEL = "{}/truecase-model.{}".format(MODEL_PATH, LANG)
-PORT = int(sys.argv[3])
+PORT = int(sys.argv[4])
 
-TOK_COMMAND = '{}/tokenizer/tokenizer.perl -l {} '.format(SCRIPT_PATH, LANG)
+NORM_COMMAND = '{}/tokenizer/normalize-punctuation.perl'.format(SCRIPT_PATH)
+TOK_COMMAND = '{}/tokenizer/tokenizer.perl {} '.format(SCRIPT_PATH, TOK_SETTINGS)
 TRUE_COMMAND = '{}/recaser/truecase.perl --model {}'.format(SCRIPT_PATH,
                                                             TRUE_MODEL)
 
+NORMALIZER = pexpect.spawn(NORM_COMMAND)
 TOKENIZER = pexpect.spawn(TOK_COMMAND)
 TOKENIZER.expect("Number of threads: .*\n")
 TRUECASER = pexpect.spawn(TRUE_COMMAND)
@@ -39,8 +42,9 @@ def preprocess(ws):
 
         if message:
             inList = message.split("\n")
-            global TOKENIZER, TRUCASER
-            preprocessed = process_by_pipe(TOKENIZER, inList)
+            global NORMALIZER, TOKENIZER, TRUCASER
+            preprocessed = process_by_pipe(NORMALIZER, inList)
+            preprocessed = process_by_pipe(TOKENIZER, preprocessed)
             preprocessed = process_by_pipe(TRUECASER, preprocessed)
             ws.send('\n'.join(preprocessed))
 

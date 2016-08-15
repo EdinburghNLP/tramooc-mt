@@ -80,6 +80,7 @@ def download_model_parts(model, workdir, force=False):
     trg = model.split('-')[1]
 
     model_parts = ["model.npz",
+                   "preprocess.sh",
                    "vocab.{}.json".format(src),
                    "vocab.{}.json".format(trg),
                    "{}{}.bpe".format(src, trg),

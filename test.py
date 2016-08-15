@@ -29,7 +29,7 @@ TRANSLATION_MEMORY = """
 MESSAGE = """
 <msg>
 <lang-source>en</lang-source>
-<lang-target>ru</lang-target>
+<lang-target>de</lang-target>
 <domain>informal</domain>
 <text>This is a test.</text>
 <text>This is another one.</text>

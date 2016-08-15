@@ -87,7 +87,7 @@ def parse_xml(message):
     trg = xm.iterfind('lang-target').next().text
     model = '{}-{}'.format(src, trg)
     sentences = [sen.text.strip() for sen in xm.iterfind('text')]
-    if xm.find('tmx'):
+    if xm.find('tmx') is not None:
         tmx = extract_tmx(xm.find('tmx'), src, trg)
     else:
         tmx = None
