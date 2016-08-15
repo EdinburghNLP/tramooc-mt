@@ -30,7 +30,10 @@ def translate(sentences, model):
 
 def preprocess(sentences, model):
     input_text = '\n'.join(sentences)
-    preprocessor = create_connection(settings.PREPROCESSOR[model])
+    try:
+        preprocessor = create_connection(settings.PREPROCESSOR[model])
+    except KeyError:
+        raise EngineException('Error: language pair {0} not found among running instances.'.format(model))
     preprocessor.send(input_text)
     preprocessed = preprocessor.recv().strip().split('\n')
     preprocessor.close()
@@ -80,11 +83,12 @@ def extract_tmx(tmx, src, trg):
 
 def parse_xml(message):
     xm = etree.fromstring(message)
-    trg = xm.iterfind('lang').next().text
-    model = 'en-{}'.format(trg)
+    src = xm.iterfind('lang-source').next().text
+    trg = xm.iterfind('lang-target').next().text
+    model = '{}-{}'.format(src, trg)
     sentences = [sen.text.strip() for sen in xm.iterfind('text')]
     if xm.find('tmx'):
-        tmx = extract_tmx(xm.find('tmx'), 'en', trg)
+        tmx = extract_tmx(xm.find('tmx'), src, trg)
     else:
         tmx = None
 

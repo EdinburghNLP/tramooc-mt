@@ -28,7 +28,8 @@ TRANSLATION_MEMORY = """
 
 MESSAGE = """
 <msg>
-<lang>de</lang>
+<lang-source>en</lang-source>
+<lang-target>ru</lang-target>
 <domain>informal</domain>
 <text>This is a test.</text>
 <text>This is another one.</text>
@@ -44,8 +45,11 @@ def main():
     conn.send(MESSAGE)
 
     translation = conn.recv()
-    xml = '\n'.join([elem.text for elem in etree.fromstring(translation).iterfind('text')])
-    print xml
+    try:
+        xml = '\n'.join([elem.text for elem in etree.fromstring(translation).iterfind('text')])
+        print xml
+    except:
+        sys.stderr.write(translation + '\n')
     conn.close()
 
 
