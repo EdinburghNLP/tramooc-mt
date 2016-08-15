@@ -9,7 +9,7 @@ MODEL_DIR = "model"
 
 print os.path.dirname(os.path.realpath(__file__))
 COMMON_DIR = os.path.dirname(os.path.realpath(__file__))
-sys.path.append("{}/amunmt/scripts".format(COMMON_DIR))
+sys.path.append("{}/server".format(COMMON_DIR))
 import download_models
 
 

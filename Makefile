@@ -22,5 +22,5 @@ amunmt:
 
 ./model/%/config.yml: amunmt
 	mkdir -p $(@D)
-	python $</scripts/download_models.py -w $(@D) -m $*
+	python server/download_models.py -w $(@D) -m $*
 
