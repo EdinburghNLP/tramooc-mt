@@ -42,7 +42,7 @@ copy server /server
 copy docker-entrypoint.py /docker-entrypoint.py
 run chmod +x /docker-entrypoint.py
 
-run mkdir -p /models/amunmt
+WORKDIR /
 
 entrypoint ["/docker-entrypoint.py"]
 cmd ["en-ru en-de"]

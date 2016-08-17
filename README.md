@@ -39,10 +39,10 @@ you can run the local server as follows (for English-German):
 
 you can run the server in a docker container as follows:
 
-    docker run --rm -p 8080:8080 tramooc/mt_server en-de
+    docker run --rm -p 8080:8080 -v model:/model tramooc/mt_server en-de
 
 a single server can also support multiple languages:
 
-    docker run --rm -p 8080:8080 tramooc/mt_server en-de en-ru
+    docker run --rm -p 8080:8080 -v model:/model tramooc/mt_server en-de en-ru
 
 A simple sample client is provided by `test.py`
