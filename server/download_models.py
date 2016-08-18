@@ -20,6 +20,7 @@ beam-size: 12
 devices: [0]
 normalize: yes
 threads-per-device: 1
+threads: 8
 
 # scorer configuration
 scorers:
