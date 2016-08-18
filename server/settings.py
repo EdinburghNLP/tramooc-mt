@@ -11,6 +11,46 @@ PREPROCESSOR = {}
 POSTPROCESSOR = {}
 TRANSLATOR = {}
 
+CONFIG_TEMPLATE = """
+# Paths are relative to config file location
+relative-paths: yes
+
+# performance settings
+beam-size: 12
+normalize: yes
+threads: 8
+
+# scorer configuration
+scorers:
+  F0:
+    path: ./model.ens0.npz
+    type: Nematus
+
+  F1:
+    path: ./model.ens1.npz
+    type: Nematus
+
+  F2:
+    path: ./model.ens2.npz
+    type: Nematus
+
+  F3:
+    path: ./model.ens3.npz
+    type: Nematus
+
+# scorer weights
+weights:
+  F0: 0.25
+  F1: 0.25
+  F2: 0.25
+  F3: 0.25
+
+bpe: ./{}{}.bpe
+
+# vocabularies
+source-vocab: ./vocab.{}.json
+target-vocab: ./vocab.{}.json
+"""
 
 def init(model_path, models):
     port = 50000

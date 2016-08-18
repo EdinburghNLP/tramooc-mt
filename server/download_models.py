@@ -6,38 +6,11 @@ import sys
 import os
 import requests
 from clint.textui import progress
+from settings import CONFIG_TEMPLATE
 
 BASE_URL = "http://data.statmt.org/tramooc/prototype_v2/{}-{}/{}"
 USER = "tramooc"
 PASSWORD = "mooc4life"
-
-CONFIG_TEMPLATE = """
-# Paths are relative to config file location
-relative-paths: yes
-
-# performance settings
-beam-size: 12
-devices: [0]
-normalize: yes
-threads-per-device: 1
-threads: 8
-
-# scorer configuration
-scorers:
-  F0:
-    path: ./model.npz
-    type: Nematus
-
-# scorer weights
-weights:
-  F0: 1.0
-
-bpe: ./{}{}.bpe
-
-# vocabularies
-source-vocab: ./vocab.{}.json
-target-vocab: ./vocab.{}.json
-"""
 
 def download_with_progress(path, url):
     r = requests.get(url, stream=True, auth=requests.auth.HTTPBasicAuth(USER, PASSWORD))
@@ -80,7 +53,10 @@ def download_model_parts(model, workdir, force=False):
     src = model.split('-')[0]
     trg = model.split('-')[1]
 
-    model_parts = ["model.npz",
+    model_parts = ["model.ens0.npz",
+                   "model.ens1.npz",
+                   "model.ens2.npz",
+                   "model.ens3.npz",
                    "preprocess.sh",
                    "vocab.{}.json".format(src),
                    "vocab.{}.json".format(trg),

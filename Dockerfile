@@ -30,6 +30,7 @@ RUN pip install -r /requirements.txt
 # Install amunmt
 RUN git clone https://github.com/emjotde/amunmt -b cpu_stable
 WORKDIR /amunmt
+RUN git pull
 RUN mkdir -p build
 WORKDIR /amunmt/build
 RUN cmake -DCMAKE_BUILD_TYPE=release .. && make -j 2
