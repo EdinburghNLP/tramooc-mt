@@ -1,5 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals, print_function
 import sys
 from websocket import create_connection
 from lxml import etree
@@ -46,10 +48,11 @@ def main():
 
     translation = conn.recv()
     try:
-        xml = '\n'.join([elem.text for elem in etree.fromstring(translation).iterfind('text')])
-        print xml
-    except:
+        for elem in etree.fromstring(translation).iterfind('text'):
+        print(elem.text.encode('UTF-8'))
+    except Exception as e:
         sys.stderr.write(translation + '\n')
+        raise
     conn.close()
 
 
