@@ -117,11 +117,13 @@ def handle_websocket():
             try:
                 message = wsock.receive()
                 if message is not None:
-                    model, sentences, translation_memory = parse_xml(message)
                     try:
+                        model, sentences, translation_memory = parse_xml(message)
                         trans = process_sentences(sentences, model, translation_memory)
                         wsock.send(pack_into_xml(trans, model))
                     except EngineException as e:
+                        wsock.send(e)
+                    except Exception as e:
                         wsock.send(e)
             except WebSocketError:
                 break
