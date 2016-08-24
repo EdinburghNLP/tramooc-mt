@@ -28,11 +28,17 @@ TOKENIZER.expect("Number of threads: .*\n")
 TRUECASER = pexpect.spawn(TRUE_COMMAND)
 
 
-def process_by_pipe(processor, sentences):
-    processor.sendline('\n'.join(sentences))
-    for i in range(len(sentences)):
-        processor.readline()
-    return [processor.readline().strip() for i in range(len(sentences))]
+def process_by_pipe(processor, sentences, max_sentences=10):
+    start = 0
+    ret = []
+    while start < len(sentences):
+        processor.sendline('\n'.join(sentences[start:start+max_sentences]))
+        for i in range(min(max_sentences, len(sentences)-start)):
+            processor.readline()
+        for i in range(min(max_sentences, len(sentences)-start)):
+            ret.append(processor.readline().strip())
+        start += max_sentences
+    return ret
 
 
 @sockets.route('/preprocess')
