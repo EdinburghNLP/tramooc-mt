@@ -25,10 +25,12 @@ DETRUECASER = pexpect.spawn(DETRUE_COMMAND)
 
 
 def process_by_pipe(processor, sentences):
-    processor.sendline('\n'.join(sentences))
-    for i in range(len(sentences)):
+    ret = []
+    for sentence in sentences:
+        processor.sendline(sentence)
         processor.readline()
-    return [processor.readline().strip() for i in range(len(sentences))]
+        ret.append(processor.readline().strip())
+    return ret
 
 
 @sockets.route('/postprocess')
