@@ -41,8 +41,8 @@ def postprocess(ws):
         if message:
             inList = message.split("\n")
             global DETOKENIZER, DETRUCASER
-            preprocessed = process_by_pipe(DETOKENIZER, inList)
-            preprocessed = process_by_pipe(DETRUECASER, preprocessed)
+            preprocessed = process_by_pipe(DETRUECASER, inList)
+            preprocessed = process_by_pipe(DETOKENIZER, ipreprocessed)
             ws.send('\n'.join(preprocessed))
 
 if __name__ == '__main__':
