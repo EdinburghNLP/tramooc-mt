@@ -1,5 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+# simple sample client with hard-coded XML input (for en-de)
+# usage: python sample-client.py
 
 from __future__ import unicode_literals, print_function
 import sys

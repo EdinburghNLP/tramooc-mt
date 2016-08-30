@@ -45,4 +45,4 @@ a single server can also support multiple languages:
 
     docker run --rm -p 8080:8080 -v model:/model tramooc/mt_server en-de en-ru
 
-A simple sample client is provided by `test.py`
+A simple sample client is provided by `sample-client.py`. `sample-client-2.py` allows the translation of text passed via standard input.
