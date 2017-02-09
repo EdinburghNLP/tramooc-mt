@@ -34,7 +34,7 @@ RUN git pull
 RUN git checkout tags/v0.2
 RUN mkdir -p build
 WORKDIR /amunmt/build
-RUN cmake -DCMAKE_BUILD_TYPE=release .. && make -j 2
+RUN cmake -DCUDA=OFF -DCMAKE_BUILD_TYPE=release .. && make -j 2
 
 # install server scripts
 run mkdir -p /server
