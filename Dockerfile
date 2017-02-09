@@ -28,9 +28,10 @@ COPY requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
 # Install amunmt
-RUN git clone https://github.com/emjotde/amunmt -b cpu_stable
+RUN git clone https://github.com/rsennrich/amunmt
 WORKDIR /amunmt
 RUN git pull
+RUN git checkout tags/v0.2
 RUN mkdir -p build
 WORKDIR /amunmt/build
 RUN cmake -DCMAKE_BUILD_TYPE=release .. && make -j 2

@@ -15,7 +15,13 @@ on Ubuntu 16.04, the server can be installed natively.
 
   - install amuNMT:
 
-    make amunmt
+    git clone https://github.com/rsennrich/amunmt
+    cd amunmt
+    git pull
+    git checkout tags/v0.2
+
+  - build amuNMT:
+
     mkdir -p amunmt/build
     cd amunmt/build
     cmake -DCMAKE_BUILD_TYPE=release .. && make -j 2
