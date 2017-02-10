@@ -15,16 +15,13 @@ on Ubuntu 16.04, the server can be installed natively.
 
   - install amuNMT:
 
-    git clone https://github.com/rsennrich/amunmt
-    cd amunmt
-    git pull
-    git checkout tags/v0.2
+    git clone https://github.com/amunmt/amunmt -b stable
 
   - build amuNMT:
 
     mkdir -p amunmt/build
     cd amunmt/build
-    cmake -DCUDA=OFF -DCMAKE_BUILD_TYPE=release .. && make -j 2
+    cmake -DCUDA=OFF -DCMAKE_BUILD_TYPE=release .. && make -j 2 && make -j 2 python
 
 on other Linux systems, the server can be deployed via a Docker container.
 

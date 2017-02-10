@@ -28,13 +28,11 @@ COPY requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
 # Install amunmt
-RUN git clone https://github.com/rsennrich/amunmt
+RUN git clone https://github.com/amunmt/amunmt -b stable
 WORKDIR /amunmt
-RUN git pull
-RUN git checkout tags/v0.2
 RUN mkdir -p build
 WORKDIR /amunmt/build
-RUN cmake -DCUDA=OFF -DCMAKE_BUILD_TYPE=release .. && make -j 2
+RUN cmake -DCUDA=OFF -DCMAKE_BUILD_TYPE=release .. && make -j 2 && make -j 2 python
 
 # install server scripts
 run mkdir -p /server
