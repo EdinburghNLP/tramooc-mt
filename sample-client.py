@@ -51,7 +51,7 @@ def main():
     translation = conn.recv()
     try:
         for elem in etree.fromstring(translation).iterfind('text'):
-        print(elem.text.encode('UTF-8'))
+            print(elem.text.encode('UTF-8'))
     except Exception as e:
         sys.stderr.write(translation + '\n')
         raise

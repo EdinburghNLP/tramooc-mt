@@ -13,9 +13,9 @@ output_language = sys.argv[1]
 
 to_translate = []
 for line in sys.stdin:
-  elem = etree.Element('text')
-  elem.text = line.strip().decode('UTF-8')
-  to_translate.append(etree.tostring(elem))
+    elem = etree.Element('text')
+    elem.text = line.strip().decode('UTF-8')
+    to_translate.append(etree.tostring(elem))
 
 MESSAGE = """
 <msg>
