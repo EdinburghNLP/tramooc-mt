@@ -57,7 +57,6 @@ def download_model_parts(model, workdir, force=False):
                    "model.ens1.npz",
                    "model.ens2.npz",
                    "model.ens3.npz",
-                   "preprocess.sh",
                    "vocab.{}.json".format(src),
                    "vocab.{}.json".format(trg),
                    "{}{}.bpe".format(src, trg),
