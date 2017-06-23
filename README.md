@@ -8,20 +8,20 @@ version: 0.1
 ## Installation
 on Ubuntu 16.04, the server can be installed natively.
 
-  - install required Ubuntu packages (see Dockerfile for list)
+  - install required Ubuntu packages (see Dockerfile for list; if you don't use docker, also install CUDA and CUDNN)
   - install required python packages with pip:
 
     pip install -r requirements.txt --user
 
   - install amuNMT:
 
-    git clone https://github.com/amunmt/amunmt -b stable
+    git clone https://github.com/amunmt/amunmt
 
   - build amuNMT:
 
     mkdir -p amunmt/build
     cd amunmt/build
-    cmake -DCUDA=OFF -DCMAKE_BUILD_TYPE=release .. && make -j 2 && make -j 2 python
+    cmake -DCMAKE_BUILD_TYPE=release .. && make -j 2 && make -j 2 python
 
 on other Linux systems, the server can be deployed via a Docker container.
 

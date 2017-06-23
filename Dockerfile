@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM nvidia/cuda:8.0-cudnn5-devel
 MAINTAINER Tomasz Dwojak <t.dwojak@amu.edu.pl>
 
 RUN apt-get update && apt-get install -y \
@@ -28,11 +28,12 @@ COPY requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
 # Install amunmt
-RUN git clone https://github.com/amunmt/amunmt -b stable
+RUN git clone https://github.com/amunmt/amunmt
 WORKDIR /amunmt
+RUN git checkout 297957
 RUN mkdir -p build
 WORKDIR /amunmt/build
-RUN cmake -DCUDA=OFF -DCMAKE_BUILD_TYPE=release .. && make -j 2 && make -j 2 python
+RUN cmake -DCMAKE_BUILD_TYPE=release .. && make -j 2 && make -j 2 python
 
 # install server scripts
 run mkdir -p /server
