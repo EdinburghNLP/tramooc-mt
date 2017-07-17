@@ -18,7 +18,9 @@ models: ./model/en-de/config.yml ./model/en-ru/config.yml
 .phony: models
 
 amunmt:
-	git clone https://github.com/emjotde/amunmt.git -b cpu_stable $<
+	git clone https://github.com/amunmt/amunmt.git
+	cd amunmt && git checkout 5ef48d5 -b 5ef48d5
+	mkdir -p amunmt/build && cd amunmt/build && cmake -DCMAKE_BUILD_TYPE=release .. && make -j 2 && make -j 2 python
 
 ./model/%/config.yml: amunmt
 	mkdir -p $(@D)

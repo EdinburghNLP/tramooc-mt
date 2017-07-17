@@ -30,7 +30,7 @@ RUN pip install -r /requirements.txt
 # Install amunmt
 RUN git clone https://github.com/amunmt/amunmt
 WORKDIR /amunmt
-RUN git checkout 297957
+RUN git checkout 5ef48d5 -b 5ef48d5
 RUN mkdir -p build
 WORKDIR /amunmt/build
 RUN cmake -DCMAKE_BUILD_TYPE=release .. && make -j 2 && make -j 2 python
