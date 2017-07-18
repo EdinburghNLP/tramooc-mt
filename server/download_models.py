@@ -42,11 +42,11 @@ def make_workdir(path):
         pass
 
 
-def download_model(model, workdir, force=False):
+def download_model(model, workdir, force=False, devices=[0]):
     """ download Rico Sennrich's WMT16 model: <src> to <trg>. """
     make_workdir(workdir)
     download_model_parts(model, workdir, force)
-    create_base_config(model, workdir)
+    create_base_config(model, workdir, devices)
 
 
 def download_model_parts(model, workdir, force=False):
@@ -80,10 +80,11 @@ def download_file(src, trg, name, workdir, force=False):
         print >> sys.stderr, "File {} exists. Skipped".format(path)
 
 
-def create_base_config(model, model_dir):
+def create_base_config(model, model_dir, devices=[0]):
     src = model.split('-')[0]
     trg = model.split('-')[1]
-    config = CONFIG_TEMPLATE.format(src, trg, src, trg)
+    gpu_list = "[{}]".format(",".join(str(d) for d in devices))
+    config = CONFIG_TEMPLATE.format(gpu_list, src, trg, src, trg)
 
     with open("{}/config.yml".format(model_dir), 'w') as config_file:
         config_file.write(config)

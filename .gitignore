@@ -1,3 +1,6 @@
 amunmt
 model
 *.pyc
+*~
+*.swp
+*.swo

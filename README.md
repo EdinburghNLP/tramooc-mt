@@ -48,6 +48,11 @@ a single server can also support multiple languages:
 
     docker run --rm -p 8080:8080 -v model:/model tramooc/mt_server en-de en-ru
 
+you can also specify GPU devices which should be used by the server for each language pair;
+for example, to use GPU with ID 0 and 1 for en-de, and only GPU 1 for en-ru, you should type:
+
+    docker run --rm -p 8080:8080 -v model:/model tramooc/mt_server en-de:0,1 en-ru:1
+
 A simple sample client is provided by `sample-client.py`. `sample-client-2.py` allows the translation of text passed via standard input.
 
 ## Supported language pairs
