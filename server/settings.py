@@ -23,29 +23,8 @@ threads: 8
 # scorer configuration
 scorers:
   F0:
-    path: ./model.ens0.npz
+    path: ./model.npz
     type: Nematus
-
-  F1:
-    path: ./model.ens1.npz
-    type: Nematus
-
-  F2:
-    path: ./model.ens2.npz
-    type: Nematus
-
-  F3:
-    path: ./model.ens3.npz
-    type: Nematus
-
-# scorer weights
-weights:
-  F0: 0.25
-  F1: 0.25
-  F2: 0.25
-  F3: 0.25
-
-bpe: ./{}{}.bpe
 
 # vocabularies
 source-vocab: ./vocab.{}.json
@@ -60,12 +39,14 @@ def init(model_path, models):
         server_dir = os.path.dirname(os.path.realpath(__file__))
         model_dir = "{}/{}".format(model_path, model)
         src = model.split('-')[0]
-        tok_settings = '-l src'
+        trg = model.split('-')[1]
+        tok_settings = '-l {}'.format(src)
         if model in language_specific_settings.input_tokenizer:
             tok_settings = language_specific_settings.input_tokenizer[model]
         command = "{}/preprocessor_server.py {} {} \"{}\" {}".format(server_dir,
                                                               model_dir,
                                                               src,
+                                                              trg,
                                                               tok_settings,
                                                               port)
         atexit.register(sp.Popen(command, shell=True).kill)
