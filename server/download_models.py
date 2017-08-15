@@ -8,7 +8,7 @@ import requests
 from clint.textui import progress
 from settings import CONFIG_TEMPLATE
 
-BASE_URL = "http://data.statmt.org/tramooc/prototype_v2/{}-{}/{}"
+BASE_URL = "http://data.statmt.org/tramooc/prototype_v3/{}-{}/{}"
 USER = "tramooc"
 PASSWORD = "mooc4life"
 
@@ -53,13 +53,11 @@ def download_model_parts(model, workdir, force=False):
     src = model.split('-')[0]
     trg = model.split('-')[1]
 
-    model_parts = ["model.ens0.npz",
-                   "model.ens1.npz",
-                   "model.ens2.npz",
-                   "model.ens3.npz",
+    model_parts = ["model.npz",
                    "vocab.{}.json".format(src),
                    "vocab.{}.json".format(trg),
                    "{}{}.bpe".format(src, trg),
+                   "{}.vocab".format(src),
                    "truecase-model.{}".format(src)]
 
     for part in model_parts:

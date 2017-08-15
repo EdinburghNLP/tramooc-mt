@@ -2,8 +2,8 @@
 MT MODULE IN TRAMOOC PROJECT
 
 ## Information
-maintainer: Tomasz Dwojak <t.dwojak@amu.edu.pl>
-version: 0.1
+maintainer: Roman Grundkiewicz <rgrundki@staffmail.ed.ac.uk>
+version: 3
 
 ## Installation
 on Ubuntu 16.04, the server can be installed natively.
