@@ -8,7 +8,11 @@ version: 0.1
 ## Installation
 on Ubuntu 16.04, the server can be installed natively.
 
-  - install required Ubuntu packages (see Dockerfile for list; if you don't use docker, also install CUDA and CUDNN)
+  - install required Ubuntu packages (see Dockerfile for list)
+    - if you don't use docker, you might install CUDA and CUDNN manually;
+      choose version compatible with [the Docker file](https://gitlab.com/nvidia/cuda/blob/ubuntu16.04/8.0/devel/cudnn5/Dockerfile),
+      i.e. CUDA 8.0 and CUDNN-dev 5.1.10, which is downloadable from [here](http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64/libcudnn5-dev_5.1.10-1+cuda8.0_amd64.deb)
+
   - install required python packages with pip:
 
     pip install -r requirements.txt --user
