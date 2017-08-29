@@ -26,6 +26,7 @@ on Ubuntu 16.04, the server can be installed natively.
 on other Linux systems, the server can be deployed via a Docker container.
 
  - install Docker: https://docs.docker.com/engine/installation/
+ - install nvidia-docker: https://github.com/NVIDIA/nvidia-docker/wiki
  - execute `make build`
 
 ## Models
@@ -42,11 +43,11 @@ you can run the local server as follows (for English-German):
 
 you can run the server in a docker container as follows:
 
-    docker run --rm -p 8080:8080 -v model:/model tramooc/mt_server en-de
+    nvidia-docker run --rm -p 8080:8080 -v model:/model tramooc/mt_server en-de
 
 a single server can also support multiple languages:
 
-    docker run --rm -p 8080:8080 -v model:/model tramooc/mt_server en-de en-ru
+    nvidia-docker run --rm -p 8080:8080 -v model:/model tramooc/mt_server en-de en-ru
 
 A simple sample client is provided by `sample-client.py`. `sample-client-2.py` allows the translation of text passed via standard input.
 
