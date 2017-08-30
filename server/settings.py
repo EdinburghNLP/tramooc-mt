@@ -18,7 +18,9 @@ relative-paths: yes
 # performance settings
 beam-size: 12
 normalize: yes
-threads: 8
+devices: {}
+cpu-threads: 0
+gpu-threads: 1
 
 # scorer configuration
 scorers:

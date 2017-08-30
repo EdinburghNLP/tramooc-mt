@@ -22,18 +22,22 @@ def run_amunmt(models):
         sp.call(command, shell=True)
 
 
-def download_model(model):
+def download_model(model, devices=[0]):
     workdir = "{}/{}".format(MODEL_DIR, model)
-    download_models.download_model(model, workdir)
+    download_models.download_model(model, workdir, devices=devices)
 
 
 def main():
     """ main """
-    models = (' '.join(sys.argv[1:])).split(' ')
+    models = {}
+    for arg in sys.argv[1:]:
+        args = arg.split(':')
+        gpus = [0] if len(args) == 1 else [int(d) for d in args[1].split(',')]
+        models[args[0]] = gpus
     print >> sys.stderr, "MODELS:", models
-    for model in models:
-        download_model(model)
-    run_amunmt(models)
+    for model, devices in models.iteritems():
+        download_model(model, devices)
+    run_amunmt(models.keys())
 
 
 if __name__ == "__main__":
