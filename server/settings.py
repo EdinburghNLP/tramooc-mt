@@ -61,6 +61,7 @@ def init(model_path, models):
                                                               trg,
                                                               tok_settings,
                                                               port)
+        print >> sys.stderr, "Starting preprocessor:", command
         atexit.register(sp.Popen(command, shell=True).kill)
         PREPROCESSOR[model] = 'ws://localhost:{}/preprocess'.format(port)
         port += 1
@@ -74,6 +75,7 @@ def init(model_path, models):
                                                                model_dir,
                                                                trg,
                                                                port)
+        print >> sys.stderr, "Starting postprocessor:", command
         atexit.register(sp.Popen(command, shell=True).kill)
         POSTPROCESSOR[model] = 'ws://localhost:{}/postprocess'.format(port)
         port += 1
@@ -83,6 +85,7 @@ def init(model_path, models):
         server_path = os.path.dirname(os.path.realpath(__file__))
         command = "{}/../marian/build/server -c {}/{}/config.yml -p {}" \
                 .format(server_path, model_path, model, port)
+        print >> sys.stderr, "Starting translator:", command
         atexit.register(sp.Popen(command, shell=True).kill)
         TRANSLATOR[model] = 'ws://localhost:{}/translate'.format(port)
         port += 1
