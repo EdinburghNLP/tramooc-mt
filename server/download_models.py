@@ -7,6 +7,7 @@ import os
 import requests
 from clint.textui import progress
 from settings import CONFIG_TEMPLATE
+import json
 
 BASE_URL = "http://data.statmt.org/tramooc/prototype_v3/{}-{}/{}"
 USER = "tramooc"
@@ -82,10 +83,23 @@ def create_base_config(model, model_dir, devices=[0]):
     src = model.split('-')[0]
     trg = model.split('-')[1]
     gpu_list = "[{}]".format(",".join(str(d) for d in devices))
-    config = CONFIG_TEMPLATE.format(gpu_list, src, trg, src, trg)
-
+    src_vocab_size = find_vocab_size(model_dir, src)
+    trg_vocab_size = find_vocab_size(model_dir, trg)
+    config = CONFIG_TEMPLATE.format(DEVICES=gpu_list,
+                                    SRC=src,
+                                    TRG=trg,
+                                    MODEL_DIR=model_dir,
+                                    SRC_VOCAB_SIZE=src_vocab_size,
+                                    TRG_VOCAB_SIZE=trg_vocab_size)
     with open("{}/config.yml".format(model_dir), 'w') as config_file:
         config_file.write(config)
+
+
+def find_vocab_size(model_dir, lang):
+    vocab_path = os.path.join(model_dir, 'vocab.{}.json'.format(lang))
+    with open(vocab_path) as vocab_io:
+        vocab = json.load(vocab_io)
+    return max(vocab.values())
 
 
 def main():

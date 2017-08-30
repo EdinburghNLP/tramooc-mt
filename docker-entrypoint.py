@@ -18,7 +18,7 @@ def run_amunmt(models):
         command = ' '.join(
             ['python', '{}/server/app.py'.format(COMMON_DIR),
              '{} {}'.format(MODEL_DIR, ' '.join(models))])
-        print >> sys.stderr, "Running amuNMT: ", command
+        print >> sys.stderr, "Running MarianNMT: ", command
         sp.call(command, shell=True)
 
 

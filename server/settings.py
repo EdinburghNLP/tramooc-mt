@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import sys
 import atexit
 import subprocess as sp
 from time import sleep
@@ -12,25 +13,34 @@ POSTPROCESSOR = {}
 TRANSLATOR = {}
 
 CONFIG_TEMPLATE = """
-# Paths are relative to config file location
-relative-paths: yes
-
 # performance settings
 beam-size: 12
 normalize: yes
-devices: {}
-cpu-threads: 0
-gpu-threads: 1
+devices: {DEVICES}
+workspace: 2048
 
 # scorer configuration
-scorers:
-  F0:
-    path: ./model.npz
-    type: Nematus
+type: nematus
+enc-depth: 1
+enc-cell-depth: 4
+enc-type: bidirectional
+dec-depth: 1
+dec-cell-base-depth: 8
+dec-cell-high-depth: 1
+dec-cell: gru-nematus
+enc-cell: gru-nematus
+tied-embeddings: true
+layer-normalization: true
+models:
+    - {MODEL_DIR}/model.npz
 
 # vocabularies
-source-vocab: ./vocab.{}.json
-target-vocab: ./vocab.{}.json
+vocabs:
+    - {MODEL_DIR}/vocab.{SRC}.json
+    - {MODEL_DIR}/vocab.{TRG}.json
+dim-vocabs:
+    - {SRC_VOCAB_SIZE}
+    - {TRG_VOCAB_SIZE}
 """
 
 def init(model_path, models):
@@ -45,7 +55,7 @@ def init(model_path, models):
         tok_settings = '-l {}'.format(src)
         if model in language_specific_settings.input_tokenizer:
             tok_settings = language_specific_settings.input_tokenizer[model]
-        command = "{}/preprocessor_server.py {} {} \"{}\" {}".format(server_dir,
+        command = "{}/preprocessor_server.py {} {} {} \"{}\" {}".format(server_dir,
                                                               model_dir,
                                                               src,
                                                               trg,
@@ -71,10 +81,8 @@ def init(model_path, models):
     global TRANSLATOR
     for model in models:
         server_path = os.path.dirname(os.path.realpath(__file__))
-        command = "{}/../amunmt/scripts/amunmt_server.py -c {}/{}/config.yml -p {}".format(server_path,
-                                                                   model_path,
-                                                                   model,
-                                                                   port)
+        command = "{}/../marian/build/server -c {}/{}/config.yml -p {}" \
+                .format(server_path, model_path, model, port)
         atexit.register(sp.Popen(command, shell=True).kill)
         TRANSLATOR[model] = 'ws://localhost:{}/translate'.format(port)
         port += 1
