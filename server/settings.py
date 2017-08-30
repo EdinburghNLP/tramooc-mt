@@ -14,7 +14,7 @@ TRANSLATOR = {}
 
 CONFIG_TEMPLATE = """
 # performance settings
-beam-size: 12
+beam-size: 5
 normalize: yes
 devices: {DEVICES}
 workspace: 2048
