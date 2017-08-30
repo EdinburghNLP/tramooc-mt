@@ -24,9 +24,8 @@ NORM_COMMAND = '{}/tokenizer/normalize-punctuation.perl'.format(SCRIPT_PATH)
 TOK_COMMAND = '{}/tokenizer/tokenizer.perl {} '.format(SCRIPT_PATH, TOK_SETTINGS)
 TRUE_COMMAND = '{}/recaser/truecase.perl --model {}'.format(SCRIPT_PATH,
                                                             TRUE_MODEL)
-BPE_COMMAND = '{}/bpe/apply_bpe.py -c {} --vocabulary {} --vocabulary-threshold 50'.format(SCRIPT_PATH,
-                                                        BPE_MODEL,
-                                                        VOCAB_FILE)
+BPE_COMMAND = 'python3 -u {}/bpe/apply_bpe.py -c {} --vocabulary {} --vocabulary-threshold 50' \
+        .format(SCRIPT_PATH, BPE_MODEL, VOCAB_FILE)
 
 NORMALIZER = pexpect.spawn(NORM_COMMAND)
 TOKENIZER = pexpect.spawn(TOK_COMMAND)

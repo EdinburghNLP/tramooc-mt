@@ -58,10 +58,7 @@ def validate(sentences):
 def process_sentences(sentences, model, translation_memory):
     validate(sentences)
     forced_translations = override(sentences, translation_memory)
-    # TODO: fix preprocessing
-    print >> sys.stderr, "PREPROCESSING IS TEMPORARILY DISABLED"
-    # preprocessed = preprocess(sentences, model)
-    preprocessed = sentences
+    preprocessed = preprocess(sentences, model)
     translated = translate(preprocessed, model)
     post = [sentence for sentence in postprocess(translated, model) if sentence]
     for i in forced_translations:
