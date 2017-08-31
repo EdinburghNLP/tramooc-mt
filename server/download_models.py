@@ -99,7 +99,7 @@ def find_vocab_size(model_dir, lang):
     vocab_path = os.path.join(model_dir, 'vocab.{}.json'.format(lang))
     with open(vocab_path) as vocab_io:
         vocab = json.load(vocab_io)
-    return max(vocab.values())
+    return len(vocab)
 
 
 def main():
