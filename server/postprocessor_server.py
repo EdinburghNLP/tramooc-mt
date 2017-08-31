@@ -23,6 +23,8 @@ DETRUE_COMMAND = '{}/recaser/detruecase.perl'.format(SCRIPT_PATH)
 DETOKENIZER = pexpect.spawn(DETOK_COMMAND)
 DETRUECASER = pexpect.spawn(DETRUE_COMMAND)
 
+DETOKENIZER.delaybeforesend = 0
+DETRUECASER.delaybeforesend = 0
 
 def process_by_pipe(processor, sentences):
     ret = []
@@ -39,6 +41,7 @@ def postprocess(ws):
         message = ws.receive()
 
         if message:
+            message.replace("@@ ", "") # merge BPE units
             inList = message.split("\n")
             global DETOKENIZER, DETRUCASER
             preprocessed = process_by_pipe(DETRUECASER, inList)

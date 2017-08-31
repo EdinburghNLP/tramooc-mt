@@ -33,6 +33,10 @@ TOKENIZER.expect("Number of threads: .*\n")
 TRUECASER = pexpect.spawn(TRUE_COMMAND)
 BPE_APPLIER = pexpect.spawn(BPE_COMMAND)
 
+NORMALIZER.delaybeforesend = 0
+TOKENIZER.delaybeforesend = 0
+TRUECASER.delaybeforesend = 0
+BPE_APPLIER.delaybeforesend = 0
 
 def process_by_pipe(processor, sentences):
     ret = []
