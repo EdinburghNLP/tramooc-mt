@@ -17,15 +17,9 @@ on Ubuntu 16.04, the server can be installed natively.
 
     pip install -r requirements.txt --user
 
-  - install amuNMT:
+  - install MarianNMT:
 
-    git clone https://github.com/amunmt/amunmt
-
-  - build amuNMT:
-
-    mkdir -p amunmt/build
-    cd amunmt/build
-    cmake -DCMAKE_BUILD_TYPE=release .. && make -j 2 && make -j 2 python
+    make marian
 
 on other Linux systems, the server can be deployed via a Docker container.
 
