@@ -17,7 +17,7 @@ CONFIG_TEMPLATE = """
 beam-size: 5
 normalize: yes
 devices: {DEVICES}
-workspace: 2048
+workspace: 1024
 
 # scorer configuration
 type: nematus
