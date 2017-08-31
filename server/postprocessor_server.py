@@ -16,8 +16,12 @@ LANG = sys.argv[2]
 TRUE_MODEL = "{}/truecase-model.{}".format(MODEL_PATH, LANG)
 PORT = int(sys.argv[3])
 
-DETOK_COMMAND = '{}/tokenizer/detokenizer.perl -q -l {}'.format(SCRIPT_PATH,
+if LANG == 'zh':
+    DETOK_COMMAND = '{}/tokenizer/deseg-chinese.py'.format(SCRIPT_PATH)
+else:
+    DETOK_COMMAND = '{}/tokenizer/detokenizer.perl -q -l {}'.format(SCRIPT_PATH,
                                                                 LANG)
+
 DETRUE_COMMAND = '{}/recaser/detruecase.perl'.format(SCRIPT_PATH)
 
 DETOKENIZER = pexpect.spawn(DETOK_COMMAND)
