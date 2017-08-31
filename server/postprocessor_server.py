@@ -45,7 +45,7 @@ def postprocess(ws):
         message = ws.receive()
 
         if message:
-            message.replace("@@ ", "") # merge BPE units
+            message = message.replace("@@ ", "") # merge BPE units
             inList = message.split("\n")
             global DETOKENIZER, DETRUCASER
             preprocessed = process_by_pipe(DETRUECASER, inList)
