@@ -13,34 +13,15 @@ POSTPROCESSOR = {}
 TRANSLATOR = {}
 
 CONFIG_TEMPLATE = """
-# performance settings
 beam-size: 5
 normalize: yes
 devices: {DEVICES}
 workspace: 1024
-
-# scorer configuration
-type: nematus
-enc-depth: 1
-enc-cell-depth: 4
-enc-type: bidirectional
-dec-depth: 1
-dec-cell-base-depth: 8
-dec-cell-high-depth: 1
-dec-cell: gru-nematus
-enc-cell: gru-nematus
-tied-embeddings: true
-layer-normalization: true
 models:
     - {MODEL_DIR}/model.npz
-
-# vocabularies
 vocabs:
     - {MODEL_DIR}/vocab.{SRC}.json
     - {MODEL_DIR}/vocab.{TRG}.json
-dim-vocabs:
-    - {SRC_VOCAB_SIZE}
-    - {TRG_VOCAB_SIZE}
 """
 
 def init(model_path, models):
