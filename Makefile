@@ -1,5 +1,8 @@
 #!/bin/bash
 
+LANGS=de ru pl zh
+CONFIGS=$(patsubst %,./model/en-%/config.yml,$(LANGS))
+
 .secondary:
 
 run_docker:
@@ -13,7 +16,7 @@ run_local:
 build:
 	docker build -t tramooc/mt_server .
 
-models: ./model/en-de/config.yml ./model/en-ru/config.yml
+models: $(CONFIGS)
 
 .phony: models
 
