@@ -131,6 +131,14 @@ def handle_websocket():
 
 if __name__ == "__main__":
     settings.init(model_path_prefix, models)
+
+    # workaround for memory allocation bug: first sentence may be translated wrongly
+    for model in models:
+      translator = create_connection(settings.TRANSLATOR[model])
+      translator.send('this is a test .')
+      translated = translator.recv().strip().split('\n')
+      translator.close()
+
     from gevent.pywsgi import WSGIServer
     from geventwebsocket import WebSocketError
     from geventwebsocket.handler import WebSocketHandler

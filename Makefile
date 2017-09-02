@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LANGS=de ru pl zh
+LANGS=de ru pl zh bg el hr it pt nl cs
 CONFIGS=$(patsubst %,./model/en-%/config.yml,$(LANGS))
 
 .secondary:
