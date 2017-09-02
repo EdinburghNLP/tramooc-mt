@@ -17,7 +17,7 @@ TRUE_MODEL = "{}/truecase-model.{}".format(MODEL_PATH, LANG)
 PORT = int(sys.argv[3])
 
 if LANG == 'zh':
-    DETOK_COMMAND = '{}/tokenizer/deseg-chinese.py'.format(SCRIPT_PATH)
+    DETOK_COMMAND = 'python3 {}/tokenizer/deseg-chinese.py'.format(SCRIPT_PATH)
 else:
     DETOK_COMMAND = '{}/tokenizer/detokenizer.perl -q -l {}'.format(SCRIPT_PATH,
                                                                 LANG)
