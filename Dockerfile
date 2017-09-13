@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y \
     python-dev \
     python-pip \
     python-libxml2 \
+    python3 \
     gfortran \
     zlib1g-dev \
     g++ \
