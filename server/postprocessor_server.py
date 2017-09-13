@@ -50,7 +50,8 @@ def postprocess(ws):
             global DETOKENIZER, DETRUCASER
             preprocessed = process_by_pipe(DETRUECASER, inList)
             preprocessed = process_by_pipe(DETOKENIZER, preprocessed)
-            ws.send('\n'.join(preprocessed))
+            p = [sent.decode('UTF-8', 'replace') for sent in preprocessed]
+            ws.send('\n'.join(p))
 
 if __name__ == '__main__':
     from gevent import pywsgi
