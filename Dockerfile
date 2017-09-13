@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
     libeigen3-dev \
     libopenblas-base \
     libopenblas-dev \
+    libssl-dev \
     python \
     python-dev \
     python-pip \
