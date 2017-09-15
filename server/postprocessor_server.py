@@ -4,6 +4,7 @@
 import os
 import sys
 import pexpect
+import re
 from flask import Flask
 from flask_sockets import Sockets
 
@@ -46,6 +47,8 @@ def postprocess(ws):
 
         if message:
             message = message.replace("@@ ", "") # merge BPE units
+            if LANG == 'bg':
+                message = re.sub('\. \. \. \.+\n', '.\n', message) # hack because bulgarian model likes trailing '....'
             inList = message.split("\n")
             global DETOKENIZER, DETRUCASER
             preprocessed = process_by_pipe(DETRUECASER, inList)
