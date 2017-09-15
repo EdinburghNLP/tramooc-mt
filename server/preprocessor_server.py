@@ -62,7 +62,8 @@ def preprocess(ws):
             preprocessed = process_by_pipe(TOKENIZER, preprocessed)
             preprocessed = process_by_pipe(TRUECASER, preprocessed)
             preprocessed = process_by_pipe(BPE_APPLIER, preprocessed)
-            ws.send('\n'.join(preprocessed))
+            p = [sent.decode('UTF-8', 'replace') for sent in preprocessed]
+            ws.send('\n'.join(p))
 
 if __name__ == '__main__':
     from gevent import pywsgi
