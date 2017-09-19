@@ -47,8 +47,6 @@ def postprocess(ws):
 
         if message:
             message = message.replace("@@ ", "") # merge BPE units
-            if LANG == 'bg':
-                message = re.sub('\. \. \.( \.)+(?=$|\n)', '.', message) # hack because bulgarian model likes trailing '....'
             inList = message.split("\n")
             global DETOKENIZER, DETRUCASER
             preprocessed = process_by_pipe(DETRUECASER, inList)
