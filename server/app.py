@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
+import time
 import connexion
 import settings
 from bottle import request, Bottle, abort
@@ -134,7 +135,13 @@ if __name__ == "__main__":
 
     # workaround for memory allocation bug: first sentence may be translated wrongly
     for model in models:
-      translator = create_connection(settings.TRANSLATOR[model])
+      # sometimes we try to connect before server is ready; wait/retry until we succeed
+      while True:
+        try:
+          translator = create_connection(settings.TRANSLATOR[model])
+          break
+        except:
+          time.sleep(5)
       translator.send('this is a test .')
       translated = translator.recv().strip().split('\n')
       translator.close()
