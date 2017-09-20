@@ -21,11 +21,14 @@ models: $(CONFIGS)
 .phony: models
 
 marian:
-	git clone https://github.com/marian-nmt/marian.git
-	sed -i 's/branch = .*/branch = nematus/' marian/.gitmodules
-	mkdir -p marian/build && cd marian/build && cmake -DCMAKE_BUILD_TYPE=release .. && make -j4
+	git -C $@ pull || git clone https://github.com/marian-nmt/marian.git $@
+	cd $@ && git config --file=.gitmodules submodule.src/marian.branch nematus
+	cd $@ && git submodule sync
+	cd $@ && git submodule update --init --recursive --remote
+	mkdir -p $@/build && cd $@/build && cmake -DCMAKE_BUILD_TYPE=release .. && make -j4
 
 ./model/%/config.yml: marian
 	mkdir -p $(@D)
 	python server/download_models.py -w $(@D) -m $*
 
+.PHONY: marian
