@@ -61,7 +61,7 @@ def process_sentences(sentences, model, translation_memory):
     forced_translations = override(sentences, translation_memory)
     preprocessed = preprocess(sentences, model)
     translated = translate(preprocessed, model)
-    post = [sentence for sentence in postprocess(translated, model) if sentence]
+    post = [sentence for sentence in postprocess(translated, model)]
     for i in forced_translations:
         post[i] = forced_translations[i]
     return post
@@ -87,7 +87,12 @@ def parse_xml(message):
     src = xm.iterfind('lang-source').next().text
     trg = xm.iterfind('lang-target').next().text
     model = '{}-{}'.format(src, trg)
-    sentences = [sen.text.strip() for sen in xm.iterfind('text')]
+    sentences = []
+    for sen in xm.iterfind('text'):
+      if sen.text is None:
+        sentences.append("")
+      else:
+        sentences.append(sen.text.strip())
     if xm.find('tmx') is not None:
         tmx = extract_tmx(xm.find('tmx'), src, trg)
     else:
@@ -120,7 +125,11 @@ def handle_websocket():
                 if message is not None:
                     try:
                         model, sentences, translation_memory = parse_xml(message)
-                        trans = process_sentences(sentences, model, translation_memory)
+                        #empty input
+                        if sentences == [""]:
+                            trans = [""]
+                        else:
+                            trans = process_sentences(sentences, model, translation_memory)
                         wsock.send(pack_into_xml(trans, model))
                     except EngineException as e:
                         wsock.send(e)
