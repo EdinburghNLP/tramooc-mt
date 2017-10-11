@@ -11,6 +11,8 @@ regex_strings = set()
 #URL
 regex_strings.add('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
 
+#empty lines
+regex_strings.add('^$')
 
 patterns = []
 for pattern in regex_strings:
