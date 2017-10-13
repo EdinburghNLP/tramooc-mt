@@ -24,7 +24,7 @@ vocabs:
     - {MODEL_DIR}/vocab.{TRG}.json
 """
 
-def init(model_path, models):
+def init(model_path, models, loglevel='error'):
     port = 50000
 
     global PREPROCESSOR
@@ -64,8 +64,8 @@ def init(model_path, models):
     global TRANSLATOR
     for model in models:
         server_path = os.path.dirname(os.path.realpath(__file__))
-        command = "{}/../marian/build/server -c {}/{}/config.yml -p {}" \
-                .format(server_path, model_path, model, port)
+        command = "{}/../marian/build/server -c {}/{}/config.yml -p {} --log-level {}" \
+                .format(server_path, model_path, model, port, loglevel)
         print >> sys.stderr, "Starting translator:", command
         atexit.register(sp.Popen(command, shell=True).kill)
         TRANSLATOR[model] = 'ws://localhost:{}/translate'.format(port)
