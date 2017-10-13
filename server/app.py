@@ -12,7 +12,8 @@ from override import override
 
 MODEL_PATH_PREFIX = sys.argv[1]
 SUBPROC_PORT = int(sys.argv[2])
-MODELS = sys.argv[3:]
+LOG_LEVEL = sys.argv[3]
+MODELS = sys.argv[4:]
 
 PORT = 8080
 
@@ -141,7 +142,7 @@ def handle_websocket():
 
 
 if __name__ == "__main__":
-    settings.init(MODEL_PATH_PREFIX, MODELS, port=SUBPROC_PORT)
+    settings.init(MODEL_PATH_PREFIX, MODELS, loglevel=LOG_LEVEL, port=SUBPROC_PORT)
 
     # workaround for memory allocation bug: first sentence may be translated wrongly
     for model in MODELS:

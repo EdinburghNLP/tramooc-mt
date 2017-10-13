@@ -15,11 +15,11 @@ sys.path.append("{}/server".format(COMMON_DIR))
 import download_models
 
 
-def run_amunmt(subproc_port, models):
+def run_amunmt(models, subproc_port, loglevel):
     while True:
         command = ' '.join(
             ['python', '{}/server/app.py'.format(COMMON_DIR),
-             '{} {} {}'.format(MODEL_DIR, subproc_port, ' '.join(models))])
+             '{} {} {} {}'.format(MODEL_DIR, subproc_port, loglevel, ' '.join(models))])
         print >> sys.stderr, "Running MarianNMT: ", command
         sp.call(command, shell=True)
 
@@ -35,7 +35,7 @@ def main():
     print >> sys.stderr, "MODELS:", args.models
     for model, devices in args.models.iteritems():
         download_model(model, devices)
-    run_amunmt(args.subproc_port, args.models.keys())
+    run_amunmt(args.models.keys(), args.subproc_port, args.log_level)
 
 def parse_user_args():
     parser = argparse.ArgumentParser()
@@ -44,8 +44,14 @@ def parse_user_args():
         help="models and GPUs, e.g. en-de:0,1 en-pl:1")
     parser.add_argument('--subproc-port', type=int, metavar='NUM', default=50000,
         help="ports for subprocessors, ports NUM...NUM+3 will be used")
+    parser.add_argument('--verbose', action='store_true', help="print more logs")
 
     args = parser.parse_args()
+
+    args.log_level = 'error'
+    if args.verbose:
+        args.log_level = 'info'
+
     args.models = {}
     for lang in args.model:
         fields = lang.split(':')
