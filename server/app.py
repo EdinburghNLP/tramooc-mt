@@ -10,8 +10,9 @@ from websocket import create_connection
 from lxml import etree
 from override import override
 
-model_path_prefix = sys.argv[1]
-models = sys.argv[2:]
+MODEL_PATH_PREFIX = sys.argv[1]
+SUBPROC_PORT = int(sys.argv[2])
+MODELS = sys.argv[3:]
 
 PORT = 8080
 
@@ -140,10 +141,10 @@ def handle_websocket():
 
 
 if __name__ == "__main__":
-    settings.init(model_path_prefix, models)
+    settings.init(MODEL_PATH_PREFIX, MODELS, port=SUBPROC_PORT)
 
     # workaround for memory allocation bug: first sentence may be translated wrongly
-    for model in models:
+    for model in MODELS:
       # sometimes we try to connect before server is ready; wait/retry until we succeed
       while True:
         try:

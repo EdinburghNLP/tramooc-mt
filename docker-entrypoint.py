@@ -4,20 +4,22 @@
 import os
 import sys
 import subprocess as sp
+import argparse
 
 MODEL_DIR = "model"
 
 print os.path.dirname(os.path.realpath(__file__))
 COMMON_DIR = os.path.dirname(os.path.realpath(__file__))
 sys.path.append("{}/server".format(COMMON_DIR))
+
 import download_models
 
 
-def run_amunmt(models):
+def run_amunmt(subproc_port, models):
     while True:
         command = ' '.join(
             ['python', '{}/server/app.py'.format(COMMON_DIR),
-             '{} {}'.format(MODEL_DIR, ' '.join(models))])
+             '{} {} {}'.format(MODEL_DIR, subproc_port, ' '.join(models))])
         print >> sys.stderr, "Running MarianNMT: ", command
         sp.call(command, shell=True)
 
@@ -29,15 +31,27 @@ def download_model(model, devices=[0]):
 
 def main():
     """ main """
-    models = {}
-    for arg in sys.argv[1:]:
-        args = arg.split(':')
-        gpus = [0] if len(args) == 1 else [int(d) for d in args[1].split(',')]
-        models[args[0]] = gpus
-    print >> sys.stderr, "MODELS:", models
-    for model, devices in models.iteritems():
+    args = parse_user_args()
+    print >> sys.stderr, "MODELS:", args.models
+    for model, devices in args.models.iteritems():
         download_model(model, devices)
-    run_amunmt(models.keys())
+    run_amunmt(args.subproc_port, args.models.keys())
+
+def parse_user_args():
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('model', nargs='+',
+        help="models and GPUs, e.g. en-de:0,1 en-pl:1")
+    parser.add_argument('--subproc-port', type=int, metavar='NUM', default=50000,
+        help="ports for subprocessors, ports NUM...NUM+3 will be used")
+
+    args = parser.parse_args()
+    args.models = {}
+    for lang in args.model:
+        fields = lang.split(':')
+        gpus = [0] if len(fields) == 1 else [int(d) for d in fields[1].split(',')]
+        args.models[fields[0]] = gpus
+    return args
 
 
 if __name__ == "__main__":

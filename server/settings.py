@@ -24,9 +24,7 @@ vocabs:
     - {MODEL_DIR}/vocab.{TRG}.json
 """
 
-def init(model_path, models, loglevel='error'):
-    port = 50000
-
+def init(model_path, models, loglevel='error', port=50000):
     global PREPROCESSOR
     for model in models:
         server_dir = os.path.dirname(os.path.realpath(__file__))

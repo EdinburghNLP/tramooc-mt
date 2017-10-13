@@ -52,7 +52,15 @@ for example, to use GPU with ID 0 and 1 for en-de, and only GPU 1 for en-ru, you
 
     nvidia-docker run --rm -p 8080:8080 -v model:/model tramooc/mt_server en-de:0,1 en-ru:1
 
-A simple sample client is provided by `sample-client.py`. `sample-client-2.py` allows the translation of text passed via standard input.
+If you want to run more than one instance of the server, specify ports for subprocessors:
+
+    nvidia-docker run --rm -p 8080:8080 -v model:/model tramooc/mt_server en-de --subproc-port 60000
+
+See `./docker-entrypoint.py --help` for other options, which can be also passed
+to `nvidia-docker` (at the end of the command line options).
+
+A simple sample client is provided by `sample-client.py`. `sample-client-2.py`
+allows the translation of text passed via standard input.
 
 ## Supported language pairs
 
