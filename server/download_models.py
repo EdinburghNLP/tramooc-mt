@@ -44,14 +44,14 @@ def make_workdir(path):
         pass
 
 
-def download_model(model, workdir, force=False, devices=[0]):
+def download_model(model, workdir, mariandir, force=False, devices=[0]):
     """ download Rico Sennrich's WMT16 model: <src> to <trg>. """
     make_workdir(workdir)
-    download_model_parts(model, workdir, force)
+    download_model_parts(model, workdir, mariandir, force)
     create_base_config(model, workdir, devices)
 
 
-def download_model_parts(model, workdir, force=False):
+def download_model_parts(model, workdir, mariandir, force=False):
     src = model.split('-')[0]
     trg = model.split('-')[1]
 
@@ -65,7 +65,7 @@ def download_model_parts(model, workdir, force=False):
 
     for part in model_parts:
         download_file(src, trg, part, workdir, force)
-    inject_s2s_config(os.path.join(workdir, 'model.npz'))
+    inject_s2s_config(os.path.join(workdir, 'model.npz'), mariandir)
 
 
 def download_file(src, trg, name, workdir, force=False):
@@ -82,10 +82,10 @@ def download_file(src, trg, name, workdir, force=False):
         print >> sys.stderr, "File {} exists. Skipped".format(path)
 
 
-def inject_s2s_config(model_path):
+def inject_s2s_config(model_path, marian_path='./marian'):
     print >> sys.stderr, "Adding s2s parameters into {}".format(model_path)
-    command = "python ./marian/src/marian/scripts/contrib/inject_s2s_config.py" \
-              " --json {p}.json --model {p}".format(p=model_path)
+    script = os.path.join(marian_path, 'src/marian/scripts/contrib/inject_s2s_config.py')
+    command = "python {s} --json {p}.json --model {p}".format(s=script, p=model_path)
     process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
     process.wait()
 
