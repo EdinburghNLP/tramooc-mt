@@ -10,6 +10,8 @@ from settings import CONFIG_TEMPLATE
 import json
 import subprocess
 
+import inject_config
+
 BASE_URL = "http://data.statmt.org/tramooc/prototype_v3/{}-{}/{}"
 USER = "tramooc"
 PASSWORD = "mooc4life"
@@ -84,10 +86,8 @@ def download_file(src, trg, name, workdir, force=False):
 
 def inject_s2s_config(model_path, marian_path='./marian'):
     print >> sys.stderr, "Adding s2s parameters into {}".format(model_path)
-    script = os.path.join(marian_path, 'src/marian/scripts/contrib/inject_s2s_config.py')
-    command = "python {s} --json {p}.json --model {p}".format(s=script, p=model_path)
-    process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
-    process.wait()
+    json_path = model_path + ".json"
+    inject_config.inject_config(json_path, model_path)
 
 
 def create_base_config(model, model_dir, devices=[0]):
