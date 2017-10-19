@@ -49,7 +49,8 @@ def parse_user_args():
         help="ports for subprocessors, ports NUM...NUM+3 will be used")
     parser.add_argument('--model-dir', default='model', metavar='DIR',
         help="model directory, default: %(default)s")
-    parser.add_argument('--verbose', action='store_true', help="print more logs")
+    parser.add_argument('--verbose', action='store_true', help="print more logs in MT core")
+    parser.add_argument('--quiet', action='store_true', help="print no logs from MT core")
 
     args = parser.parse_args()
 
@@ -58,6 +59,8 @@ def parse_user_args():
     args.log_level = 'error'
     if args.verbose:
         args.log_level = 'info'
+    elif args.quiet:
+        args.log_level = 'off'
 
     args.models = {}
     for lang in args.model:
