@@ -33,7 +33,6 @@ def main():
     for model, devices in args.models.iteritems():
         download_models.download_model(model,
                                        os.path.join(args.model_dir, model),
-                                       args.marian_dir,
                                        force=False,
                                        devices=devices)
     run_amunmt(args.model_dir,
@@ -50,14 +49,11 @@ def parse_user_args():
         help="ports for subprocessors, ports NUM...NUM+3 will be used")
     parser.add_argument('--model-dir', default='model', metavar='DIR',
         help="model directory, default: %(default)s")
-    parser.add_argument('--marian-dir', default='marian', metavar='DIR',
-        help="marian directory, default: %(default)s")
     parser.add_argument('--verbose', action='store_true', help="print more logs")
 
     args = parser.parse_args()
 
     args.model_dir = os.path.abspath(args.model_dir)
-    args.marian_dir = os.path.abspath(args.marian_dir)
 
     args.log_level = 'error'
     if args.verbose:
