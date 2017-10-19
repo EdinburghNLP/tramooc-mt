@@ -26,9 +26,11 @@ MESSAGE = """
 </msg>
 """.format(output_language, '\n'.join(to_translate))
 
+PORT = sys.argv[2] if len(sys.argv) > 2 else '8080'
+
 def main():
     """ main """
-    conn = create_connection('ws://localhost:8080/translate')
+    conn = create_connection('ws://localhost:{}/translate'.format(PORT))
     conn.send(MESSAGE)
 
     translation = conn.recv()

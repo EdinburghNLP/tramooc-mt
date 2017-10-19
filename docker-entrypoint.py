@@ -15,11 +15,12 @@ sys.path.append("{}/server".format(COMMON_DIR))
 import download_models
 
 
-def run_amunmt(model_dir, models, subproc_port, loglevel):
+def run_amunmt(model_dir, models, port, subproc_port, loglevel):
     while True:
         command = ' '.join(
             ['python', '{}/server/app.py'.format(COMMON_DIR),
               model_dir,
+              str(port),
               str(subproc_port),
               loglevel,
               ' '.join(models)])
@@ -37,6 +38,7 @@ def main():
                                        devices=devices)
     run_amunmt(args.model_dir,
                args.models.keys(),
+               args.port,
                args.subproc_port,
                args.log_level)
 
@@ -45,6 +47,8 @@ def parse_user_args():
 
     parser.add_argument('model', nargs='+',
         help="models and GPUs, e.g. en-de:0,1 en-pl:1")
+    parser.add_argument('--port', type=int, metavar='NUM', default=8080,
+        help="port number, default: %(default)s")
     parser.add_argument('--subproc-port', type=int, metavar='NUM', default=50000,
         help="ports for subprocessors, ports NUM...NUM+3 will be used")
     parser.add_argument('--model-dir', default='model', metavar='DIR',

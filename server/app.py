@@ -11,11 +11,10 @@ from lxml import etree
 from override import override
 
 MODEL_PATH_PREFIX = sys.argv[1]
-SUBPROC_PORT = int(sys.argv[2])
-LOG_LEVEL = sys.argv[3]
-MODELS = sys.argv[4:]
-
-PORT = 8080
+PORT = int(sys.argv[2])
+SUBPROC_PORT = int(sys.argv[3])
+LOG_LEVEL = sys.argv[4]
+MODELS = sys.argv[5:]
 
 app = Bottle()
 
