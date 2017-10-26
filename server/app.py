@@ -25,7 +25,7 @@ def translate(sentences, model):
     input_text = '\n'.join(sentences)
     translator = create_connection(settings.TRANSLATOR[model])
     translator.send(input_text)
-    translated = translator.recv().strip().split('\n')
+    translated = translator.recv().split('\n')
     translator.close()
     return translated
 
@@ -37,7 +37,7 @@ def preprocess(sentences, model):
     except KeyError:
         raise EngineException('Error: language pair {0} not found among running instances.'.format(model))
     preprocessor.send(input_text)
-    preprocessed = preprocessor.recv().strip().split('\n')
+    preprocessed = preprocessor.recv().split('\n')
     preprocessor.close()
     return preprocessed
 
@@ -46,7 +46,7 @@ def postprocess(sentences, model):
     input_text = '\n'.join(sentences)
     postprocessor = create_connection(settings.POSTPROCESSOR[model])
     postprocessor.send(input_text)
-    postprocessed = postprocessor.recv().strip().split('\n')
+    postprocessed = postprocessor.recv().split('\n')
     postprocessor.close()
     return postprocessed
 
