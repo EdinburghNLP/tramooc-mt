@@ -65,6 +65,10 @@ def process_sentences(sentences, model, translation_memory):
     post = [sentence for sentence in postprocess(translated, model)]
     for i in forced_translations:
         post[i] = forced_translations[i]
+
+    if len(post) > len(sentences):
+        post = post[:len(sentences)]
+
     return post
 
 def extract_tmx(tmx, src, trg):
