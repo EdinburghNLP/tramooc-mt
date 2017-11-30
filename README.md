@@ -2,6 +2,15 @@
 MT MODULE IN TRAMOOC PROJECT
 
 ## Information
+
+The TraMOOC MT Server provides the following functionality:
+
+ - Docker files that facilitate the installation of Marian and all requirements, the download and configuration of the TraMOOC translation models, and the launch of a server that serves translations via HTTP.
+ - an API that receives and serves requests over HTTP in the XML format.
+ - language-specific pre- and postprocessing, including tokenization, truecasing, and subword segmentation.
+ - support for segment-level override patterns for text that should not be translated (such as URLs or programming language source code).
+ - support for a TMX translation memory.
+
 maintainer: Roman Grundkiewicz <rgrundki@staffmail.ed.ac.uk>
 
 version: 3
