@@ -3,6 +3,7 @@ MT MODULE IN TRAMOOC PROJECT
 
 ## Information
 maintainer: Roman Grundkiewicz <rgrundki@staffmail.ed.ac.uk>
+
 version: 3
 
 ## Installation
@@ -62,6 +63,14 @@ to `nvidia-docker` (at the end of the command line options).
 A simple sample client is provided by `sample-client.py`. `sample-client-2.py`
 allows the translation of text passed via standard input.
 
+## License
+
+The code in this repository is released under the FreeBSD License.
+
+By default, the tool downloads and uses pre-trained models for 11 language pairs (see below).
+These models are released for research purposes only.
+
+
 ## Supported language pairs
 
     - en-bg (English-Bulgarian)
@@ -75,3 +84,7 @@ allows the translation of text passed via standard input.
     - en-pt (English-Portuguese)
     - en-ru (English-Russian)
     - en-zh (English-Chinese)
+
+## Acknowledgments
+
+This project has received funding from the European Union’s Horizon 2020 research and innovation programme under grant agreement 644333 (TraMOOC).
