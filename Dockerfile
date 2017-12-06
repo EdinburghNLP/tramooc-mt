@@ -31,11 +31,8 @@ COPY requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
 # Install amunmt
-RUN git clone https://github.com/marian-nmt/marian.git
+RUN git clone https://github.com/marian-nmt/marian-dev.git -b nematus marian
 WORKDIR /marian
-RUN git config --file=.gitmodules submodule.src/marian.branch nematus
-RUN git submodule sync
-RUN git submodule update --init --recursive --remote
 RUN mkdir -p build
 WORKDIR /marian/build
 RUN cmake -DCMAKE_BUILD_TYPE=release .. && make -j4
