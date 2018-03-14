@@ -17,7 +17,7 @@ beam-size: 5
 normalize: 1.0
 devices: {DEVICES}
 workspace: 1024
-mini-batch: 32
+mini-batch: 64
 maxi-batch: 100
 maxi-batch-sort: src
 models:
