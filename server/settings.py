@@ -18,6 +18,8 @@ normalize: 1.0
 devices: {DEVICES}
 workspace: 1024
 mini-batch: 32
+maxi-batch: 100
+maxi-batch-sort: src
 models:
     - {MODEL_DIR}/model.npz
 vocabs:
