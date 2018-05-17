@@ -133,6 +133,8 @@ def handle_websocket():
                         #empty input
                         if sentences == [""]:
                             trans = [""]
+                        elif sentences == []:
+                            trans = []
                         else:
                             trans = process_sentences(sentences, model, translation_memory)
                         wsock.send(pack_into_xml(trans, model))
