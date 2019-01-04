@@ -10,4 +10,4 @@ lxml==3.3.3
 requests==2.9.1
 gevent_websocket==0.9.5
 websocket_client==0.37.0
-PyYAML==3.11
+PyYAML==4.2b1
